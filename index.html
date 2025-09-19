@@ -7,23 +7,35 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        :root {
+            --antique-white: #ffedd8;
+            --light-orange: #f3d5b5;
+            --tan: #e7bc91;
+            --buff: #d4a276;
+            --lion: #bc8a5f;
+            --chamoisee: #a47148;
+            --raw-umber: #8b5e34;
+            --sepia: #6f4518;
+            --sepia-2: #603808;
+            --sepia-3: #583101;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
+            background-color: var(--antique-white);
+            color: var(--sepia-3);
         }
         .container {
             max-width: 900px;
         }
-        .question-box {
-            background-color: #ffffff;
+        .question-box, .writing-box {
+            background-color: var(--light-orange);
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 2rem;
         }
         .response-box {
-            background-color: #f9fafb;
-            border-left: 4px solid #3b82f6;
+            background-color: var(--tan);
+            border-left: 4px solid var(--buff);
             border-radius: 8px;
             padding: 1.5rem;
             margin-top: 1.5rem;
@@ -31,7 +43,7 @@
         .loading-dot {
             width: 8px;
             height: 8px;
-            background-color: #3b82f6;
+            background-color: var(--chamoisee);
             border-radius: 50%;
             animation: bounce 1s infinite;
         }
@@ -49,15 +61,26 @@
                 transform: translateY(-8px);
             }
         }
+        .correct {
+            background-color: #dcfce7;
+            border-color: #22c55e;
+            color: #16a34a;
+        }
+        .incorrect {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center p-6 min-h-screen">
     <div class="container w-full bg-white p-8 rounded-2xl shadow-xl">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-2">Grammar Exercises</h1>
-        <p class="text-center text-gray-500 mb-8">Test your knowledge of sentence types. Check your answers with the power of Gemini.</p>
+        <h1 class="text-4xl font-bold text-center text-sepia-3 mb-2">Grammar Exercises</h1>
+        <p class="text-center text-raw-umber mb-8">Test your knowledge of sentence types. Check your answers with the power of Gemini.</p>
 
-        <div id="question-container" class="question-box">
-            <!-- Question will be dynamically injected here -->
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="question-box">
+            <h2 class="text-3xl font-semibold mb-6 text-chamoisee">Multiple Choice</h2>
             <p id="current-question-text" class="text-2xl font-medium mb-6"></p>
             <div id="options-container" class="flex flex-col space-y-3">
                 <!-- Options will be dynamically injected here -->
@@ -65,30 +88,53 @@
             <div class="flex justify-between items-center mt-6">
                 <button
                     id="prev-btn"
-                    class="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-xl shadow-md hover:bg-gray-400 transition-colors"
+                    class="bg-buff text-sepia-3 font-semibold py-2 px-4 rounded-xl shadow-md hover:bg-tan transition-colors"
                 >
                     Previous
                 </button>
                 <button
                     id="check-btn"
-                    class="bg-blue-600 text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-blue-700 transition-colors"
+                    class="bg-lion text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-chamoisee transition-colors"
                 >
                     Check Answer
                 </button>
                 <button
                     id="next-btn"
-                    class="bg-gray-600 text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:bg-gray-700 transition-colors hidden"
+                    class="bg-chamoisee text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:bg-sepia transition-colors hidden"
                 >
                     Next
                 </button>
             </div>
-            <div id="response-container" class="response-box hidden">
-                <div id="loading-indicator" class="flex justify-center items-center space-x-2 my-4 hidden">
+            <div id="feedback-container" class="response-box hidden">
+                <p id="feedback-message" class="font-bold"></p>
+                <p id="feedback-explanation" class="text-sm mt-2"></p>
+            </div>
+        </div>
+
+        <!-- Free-Form Writing Section -->
+        <div id="writing-section" class="writing-box mt-8">
+            <h2 class="text-3xl font-semibold mb-4 text-chamoisee">Sentence Writing</h2>
+            <p class="text-raw-umber mb-4">Write two (2) simple sentences, two (2) complex sentences, two (2) compound sentences, and two (2) compound-complex sentences about things that happen during the holidays.</p>
+            <textarea
+                id="user-sentences"
+                class="w-full h-48 p-4 rounded-xl border-2 border-tan focus:outline-none focus:border-buff resize-none text-raw-umber"
+                placeholder="Write your sentences here..."
+            ></textarea>
+            <div class="flex justify-end mt-4">
+                <button
+                    id="gemini-check-btn"
+                    class="bg-lion text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-chamoisee transition-colors"
+                >
+                    Check My Sentences with Gemini
+                </button>
+            </div>
+            <div id="gemini-response-container" class="response-box hidden">
+                <div id="gemini-loading-indicator" class="flex justify-center items-center space-x-2 my-4 hidden">
                     <div class="loading-dot"></div>
                     <div class="loading-dot"></div>
                     <div class="loading-dot"></div>
                 </div>
-                <p id="gemini-response" class="text-gray-700"></p>
+                <p id="gemini-response-text" class="text-raw-umber"></p>
             </div>
         </div>
     </div>
@@ -150,9 +196,15 @@
             const checkButton = document.getElementById('check-btn');
             const nextButton = document.getElementById('next-btn');
             const prevButton = document.getElementById('prev-btn');
-            const responseContainer = document.getElementById('response-container');
-            const geminiResponseElement = document.getElementById('gemini-response');
-            const loadingIndicator = document.getElementById('loading-indicator');
+            const feedbackContainer = document.getElementById('feedback-container');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const feedbackExplanation = document.getElementById('feedback-explanation');
+            
+            const userSentencesTextarea = document.getElementById('user-sentences');
+            const geminiCheckBtn = document.getElementById('gemini-check-btn');
+            const geminiResponseContainer = document.getElementById('gemini-response-container');
+            const geminiResponseText = document.getElementById('gemini-response-text');
+            const geminiLoadingIndicator = document.getElementById('gemini-loading-indicator');
 
             // API key variable - leave as an empty string
             const apiKey = "";
@@ -185,19 +237,19 @@
                 const q = questions[currentQuestionIndex];
                 questionTextElement.textContent = q.text;
                 optionsContainer.innerHTML = '';
-                responseContainer.classList.add('hidden');
+                feedbackContainer.classList.add('hidden');
                 nextButton.classList.add('hidden');
                 checkButton.classList.remove('hidden');
 
                 q.options.forEach((option, index) => {
                     const button = document.createElement('button');
                     button.textContent = option.text;
-                    button.className = "text-left p-3 border-2 border-gray-300 rounded-xl hover:bg-gray-100 transition-colors focus:outline-none";
+                    button.className = "text-left p-3 border-2 border-tan rounded-xl hover:bg-tan transition-colors focus:outline-none";
                     button.onclick = () => {
                         document.querySelectorAll('#options-container button').forEach(btn => {
-                            btn.classList.remove('bg-blue-200', 'border-blue-500');
+                            btn.classList.remove('bg-tan', 'border-buff');
                         });
-                        button.classList.add('bg-blue-200', 'border-blue-500');
+                        button.classList.add('bg-tan', 'border-buff');
                         checkButton.dataset.selectedIndex = index;
                     };
                     optionsContainer.appendChild(button);
@@ -210,10 +262,10 @@
                 }
             };
 
-            const getResponseFromGemini = async (prompt) => {
-                loadingIndicator.classList.remove('hidden');
-                geminiResponseElement.textContent = '';
-                responseContainer.classList.remove('hidden');
+            const getGeminiResponse = async (prompt) => {
+                geminiLoadingIndicator.classList.remove('hidden');
+                geminiResponseText.textContent = '';
+                geminiResponseContainer.classList.remove('hidden');
 
                 const payload = {
                     contents: [{
@@ -234,15 +286,15 @@
                     const result = await response.json();
                     const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
                     if (text) {
-                        geminiResponseElement.textContent = text;
+                        geminiResponseText.textContent = text;
                     } else {
-                        geminiResponseElement.textContent = 'Sorry, I couldn\'t generate a response. Please try again.';
+                        geminiResponseText.textContent = 'Sorry, I couldn\'t generate a response. Please try again.';
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    geminiResponseElement.textContent = 'An error occurred. Please check the console for details.';
+                    geminiResponseText.textContent = 'An error occurred. Please check the console for details.';
                 } finally {
-                    loadingIndicator.classList.add('hidden');
+                    geminiLoadingIndicator.classList.add('hidden');
                 }
             };
 
@@ -258,9 +310,18 @@
                 const selectedOption = currentQuestion.options[selectedIndex];
                 const correctOption = currentQuestion.options.find(opt => opt.isCorrect);
 
-                let prompt = `Analyze the following sentence: "${currentQuestion.text}". The user chose "${selectedOption.text}" as the sentence type. Is this correct? Provide a detailed explanation of why the answer is correct or incorrect, referencing the key components of the sentence (e.g., clauses, conjunctions, etc.). The correct answer is "${correctOption.text}".`;
-
-                getResponseFromGemini(prompt);
+                feedbackContainer.classList.remove('hidden');
+                if (selectedOption.isCorrect) {
+                    feedbackContainer.classList.add('correct');
+                    feedbackContainer.classList.remove('incorrect');
+                    feedbackMessage.textContent = 'Correct!';
+                } else {
+                    feedbackContainer.classList.add('incorrect');
+                    feedbackContainer.classList.remove('correct');
+                    feedbackMessage.textContent = 'Incorrect.';
+                }
+                feedbackExplanation.textContent = `The correct answer is "${correctOption.text}". ${correctOption.explanation}`;
+                
                 checkButton.classList.add('hidden');
                 if (currentQuestionIndex < questions.length - 1) {
                     nextButton.classList.remove('hidden');
@@ -279,6 +340,16 @@
                     currentQuestionIndex--;
                     renderQuestion();
                 }
+            });
+
+            geminiCheckBtn.addEventListener('click', () => {
+                const sentences = userSentencesTextarea.value.trim();
+                if (!sentences) {
+                    alert('Please write your sentences before checking.');
+                    return;
+                }
+                const prompt = `Analyze the following sentences for grammar and sentence structure. Identify each sentence type (simple, complex, compound, or compound-complex) and provide constructive feedback on their accuracy. The sentences are about the holidays:\n\n${sentences}`;
+                getGeminiResponse(prompt);
             });
 
             // Initial render
