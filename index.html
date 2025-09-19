@@ -9,19 +9,38 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            background-color: #95D5B2;
+            color: #081C15;
+        }
+        .text-dark-green {
+            color: #081C15;
+        }
+        .bg-mint {
+            background-color: #52B788;
+        }
+        .border-mint {
+            border-color: #52B788;
+        }
+        .focus\:ring-mint:focus {
+            --tw-ring-color: #52B788;
+        }
+        .hover\:bg-mint-light:hover {
+            background-color: #8ce3b7;
+        }
+        .bg-green-500 {
+            background-color: #52B788;
         }
     </style>
 </head>
 <body class="p-4 flex items-center justify-center min-h-screen">
     <div class="w-full max-w-2xl bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Grammar Practice</h1>
-        <p class="text-center text-gray-600 mb-6">Select a topic from the dropdown menu to start your exercises.</p>
+        <h1 class="text-3xl font-bold text-center text-dark-green mb-6">Grammar Practice</h1>
+        <p class="text-center text-dark-green mb-6">Select a topic from the dropdown menu to start your exercises.</p>
 
         <!-- Topic Selection Dropdown -->
         <div class="mb-8">
-            <label for="topic-select" class="block text-gray-700 font-medium mb-2">Choose a Topic:</label>
-            <select id="topic-select" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 cursor-pointer">
+            <label for="topic-select" class="block text-dark-green font-medium mb-2">Choose a Topic:</label>
+            <select id="topic-select" class="w-full p-3 rounded-lg border border-mint focus:outline-none focus:ring-2 focus:ring-mint transition-all duration-200 cursor-pointer">
                 <option value="" disabled selected>-- Select a topic --</option>
             </select>
         </div>
@@ -36,7 +55,7 @@
             <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
                 <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
             </div>
-            <p class="mt-2 text-gray-600">Checking your answer with Gemini...</p>
+            <p class="mt-2 text-dark-green">Checking your answer with Gemini...</p>
         </div>
     </div>
 
@@ -62,6 +81,11 @@
                     type: "multiple-choice",
                     question: "Identify the dependent clause: Before you accuse someone of stealing your pencil, make sure it isn't just lost.",
                     options: ["Before you accuse someone of stealing your pencil", "make sure it isn't just lost", "accuse someone", "make sure"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the dependent clause: While some were fishing, others were hiking.",
+                    options: ["While some were fishing", "others were hiking", "were fishing", "some were fishing"]
                 }
             ],
             "Sentence Combining": [
@@ -82,6 +106,10 @@
                 {
                     type: "writing",
                     prompt: "Combine the sentences into a complex sentence: Our football captain rings the victory bell. He rings it whenever we win a game."
+                },
+                {
+                    type: "writing",
+                    prompt: "Combine the sentences using shared words: My mom made a big pizza. It was for the whole team."
                 }
             ],
             "Compound-Complex Sentences": [
@@ -124,6 +152,26 @@
                     type: "multiple-choice",
                     question: "Identify the sentence type: We have fun whenever my cousins come over, but they won't visit us until they sell their house.",
                     options: ["Compound-complex Sentence", "Simple Sentence", "Complex Sentence", "Compound Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: Ken mowed the lawn, and Jeff washed the car.",
+                    options: ["Compound Sentence", "Simple Sentence", "Complex Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: The beautiful dancer walked across the stage to accept the flowers from the director.",
+                    options: ["Simple Sentence", "Complex Sentence", "Compound Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: There is a big box of old baby clothes in the back of the closet.",
+                    options: ["Simple Sentence", "Complex Sentence", "Compound Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: The boys played while the girls painted, and everyone had a good time.",
+                    options: ["Compound-complex Sentence", "Simple Sentence", "Complex Sentence", "Compound Sentence"]
                 }
             ]
         };
@@ -149,9 +197,9 @@
 
             exercises.forEach((exercise, index) => {
                 const exerciseCard = document.createElement('div');
-                exerciseCard.className = 'bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200';
+                exerciseCard.className = 'bg-gray-50 p-6 rounded-xl shadow-inner border border-mint';
 
-                const questionText = `<p class="text-lg font-semibold text-gray-800 mb-4">${index + 1}. ${exercise.question || exercise.prompt}</p>`;
+                const questionText = `<p class="text-lg font-semibold text-dark-green mb-4">${index + 1}. ${exercise.question || exercise.prompt}</p>`;
                 
                 if (exercise.type === "multiple-choice") {
                     exerciseCard.innerHTML = `
@@ -163,15 +211,15 @@
                     shuffledOptions.forEach(option => {
                         const button = document.createElement('button');
                         button.textContent = option;
-                        button.className = 'w-full text-left p-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-100 transition-colors duration-200';
+                        button.className = 'w-full text-left p-3 rounded-lg border border-mint bg-white text-dark-green font-medium hover:bg-mint-light transition-colors duration-200';
                         button.onclick = () => handleMultipleChoiceAnswer(button, option, exercise.options[0], optionsContainer);
                         optionsContainer.appendChild(button);
                     });
                 } else if (exercise.type === "writing") {
                     exerciseCard.innerHTML = `
                         ${questionText}
-                        <textarea class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" rows="3" placeholder="Write your sentence here..."></textarea>
-                        <button class="w-full p-3 rounded-lg bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors duration-200">Check Answer</button>
+                        <textarea class="w-full p-3 rounded-lg border border-mint focus:outline-none focus:ring-2 focus:ring-mint mb-4" rows="3" placeholder="Write your sentence here..."></textarea>
+                        <button class="w-full p-3 rounded-lg bg-mint text-white font-bold hover:bg-mint-light transition-colors duration-200">Check Answer</button>
                         <div class="feedback-container mt-4"></div>
                     `;
                     const submitButton = exerciseCard.querySelector('button');
@@ -190,13 +238,14 @@
             allButtons.forEach(btn => btn.disabled = true);
 
             if (selectedOption === correctAnswer) {
-                clickedButton.classList.remove('bg-white', 'hover:bg-gray-100');
+                clickedButton.classList.remove('bg-white', 'hover:bg-mint-light');
                 clickedButton.classList.add('bg-green-500', 'text-white');
             } else {
-                clickedButton.classList.remove('bg-white', 'hover:bg-gray-100');
+                clickedButton.classList.remove('bg-white', 'hover:bg-mint-light');
                 clickedButton.classList.add('bg-red-500', 'text-white');
                 allButtons.forEach(btn => {
                     if (btn.textContent === correctAnswer) {
+                        btn.classList.remove('bg-white');
                         btn.classList.add('bg-green-500', 'text-white');
                     }
                 });
@@ -254,7 +303,7 @@
             if (response && response.ok) {
                 const result = await response.json();
                 const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't provide feedback at this time.";
-                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-gray-100 text-gray-800">${text}</p>`;
+                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-gray-100 text-dark-green">${text}</p>`;
             } else {
                 feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700">Oops! Something went wrong. Please try again.</p>`;
             }
