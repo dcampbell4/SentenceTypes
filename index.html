@@ -115,21 +115,21 @@
             "Compound-Complex Sentences": [
                 {
                     type: "multiple-choice",
-                    question: "Identify the type of sentence: The dog barked when he saw the cat, and the cat ran away.",
+                    question: "Identify the type of sentence: Because the dog was tired, he laid down, and he fell asleep quickly.",
                     options: ["Compound-Complex Sentence", "Simple Sentence", "Compound Sentence", "Complex Sentence"]
                 },
                 {
                     type: "writing",
-                    prompt: "Combine the sentences with the given clauses: We went to the game, but it started to rain. (as soon as we arrived)"
+                    prompt: "Combine the sentences: The sun was shining, and the birds were singing. (when we went outside)"
                 },
                 {
                     type: "multiple-choice",
-                    question: "Identify the independent clauses in this sentence: The students were ready when class started, but the teacher was late because he had to go to a meeting.",
-                    options: ["The students were ready", "the teacher was late", "when class started", "because he had to go to a meeting", "The students were ready; the teacher was late"]
+                    question: "Identify the independent and dependent clauses in this sentence: Although she was tired, she studied all night, and she passed the exam with flying colors.",
+                    options: ["Independent: she studied all night, she passed the exam with flying colors. Dependent: Although she was tired.", "Independent: she was tired, she studied all night. Dependent: she passed the exam with flying colors", "Independent: she studied all night. Dependent: Although she was tired, and she passed the exam with flying colors", "All are independent clauses."]
                 },
                 {
                     type: "writing",
-                    prompt: "Combine the sentences: The party ended, and we went to Tom's house. (when his parents came home)"
+                    prompt: "Combine the sentences: The movie was exciting, and the popcorn was delicious. (after we got our tickets)"
                 }
             ],
             "Sentence Types Quiz": [
@@ -305,7 +305,8 @@
                 const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't provide feedback at this time.";
                 feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-gray-100 text-dark-green">${text}</p>`;
             } else {
-                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700">Oops! Something went wrong. Please try again.</p>`;
+                const errorText = `Oops! Something went wrong. Status: ${response?.status || 'Unknown'}. Please try again.`;
+                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700">${errorText}</p>`;
             }
         }
 
