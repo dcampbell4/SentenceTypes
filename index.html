@@ -3,358 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar Exercises with Gemini</title>
+    <title>Grammar Practice</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        :root {
-            --antique-white: #ffedd8;
-            --light-orange: #f3d5b5;
-            --tan: #e7bc91;
-            --buff: #d4a276;
-            --lion: #bc8a5f;
-            --chamoisee: #a47148;
-            --raw-umber: #8b5e34;
-            --sepia: #6f4518;
-            --sepia-2: #603808;
-            --sepia-3: #583101;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--antique-white);
-            color: var(--sepia-3);
-        }
-        .container {
-            max-width: 900px;
-        }
-        .question-box, .writing-box {
-            background-color: var(--light-orange);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-        }
-        .response-box {
-            background-color: var(--tan);
-            border-left: 4px solid var(--buff);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        .loading-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--chamoisee);
-            border-radius: 50%;
-            animation: bounce 1s infinite;
-        }
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-        }
-        .correct {
-            background-color: #dcfce7;
-            border-color: #22c55e;
-            color: #16a34a;
-        }
-        .incorrect {
-            background-color: #fee2e2;
-            border-color: #ef4444;
-            color: #dc2626;
+            background-color: #f3f4f6;
         }
     </style>
 </head>
-<body class="flex flex-col items-center p-6 min-h-screen">
-    <div class="container w-full bg-white p-8 rounded-2xl shadow-xl">
-        <h1 class="text-4xl font-bold text-center text-sepia-3 mb-2">Grammar Exercises</h1>
-        <p class="text-center text-raw-umber mb-8">Test your knowledge of sentence types. Check your answers with the power of Gemini.</p>
+<body class="p-4 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-2xl bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Grammar Practice</h1>
+        <p class="text-center text-gray-600 mb-6">Select a topic from the dropdown menu to start your exercises.</p>
 
-        <!-- Quiz Section -->
-        <div id="quiz-section" class="question-box">
-            <h2 class="text-3xl font-semibold mb-6 text-chamoisee">Multiple Choice</h2>
-            <p id="current-question-text" class="text-2xl font-medium mb-6"></p>
-            <div id="options-container" class="flex flex-col space-y-3">
-                <!-- Options will be dynamically injected here -->
-            </div>
-            <div class="flex justify-between items-center mt-6">
-                <button
-                    id="prev-btn"
-                    class="bg-buff text-sepia-3 font-semibold py-2 px-4 rounded-xl shadow-md hover:bg-tan transition-colors"
-                >
-                    Previous
-                </button>
-                <button
-                    id="check-btn"
-                    class="bg-lion text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-chamoisee transition-colors"
-                >
-                    Check Answer
-                </button>
-                <button
-                    id="next-btn"
-                    class="bg-chamoisee text-white font-semibold py-2 px-4 rounded-xl shadow-lg hover:bg-sepia transition-colors hidden"
-                >
-                    Next
-                </button>
-            </div>
-            <div id="feedback-container" class="response-box hidden">
-                <p id="feedback-message" class="font-bold"></p>
-                <p id="feedback-explanation" class="text-sm mt-2"></p>
-            </div>
+        <!-- Topic Selection Dropdown -->
+        <div class="mb-8">
+            <label for="topic-select" class="block text-gray-700 font-medium mb-2">Choose a Topic:</label>
+            <select id="topic-select" class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 cursor-pointer">
+                <option value="" disabled selected>-- Select a topic --</option>
+            </select>
         </div>
 
-        <!-- Free-Form Writing Section -->
-        <div id="writing-section" class="writing-box mt-8">
-            <h2 class="text-3xl font-semibold mb-4 text-chamoisee">Sentence Writing</h2>
-            <p class="text-raw-umber mb-4">Write two (2) simple sentences, two (2) complex sentences, two (2) compound sentences, and two (2) compound-complex sentences about things that happen during the holidays.</p>
-            <textarea
-                id="user-sentences"
-                class="w-full h-48 p-4 rounded-xl border-2 border-tan focus:outline-none focus:border-buff resize-none text-raw-umber"
-                placeholder="Write your sentences here..."
-            ></textarea>
-            <div class="flex justify-end mt-4">
-                <button
-                    id="gemini-check-btn"
-                    class="bg-lion text-white font-semibold py-2 px-6 rounded-xl shadow-lg hover:bg-chamoisee transition-colors"
-                >
-                    Check My Sentences with Gemini
-                </button>
+        <!-- Exercises Container -->
+        <div id="exercises-container" class="space-y-8">
+            <!-- Exercises will be dynamically inserted here -->
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="hidden text-center mt-8">
+            <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+                <span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
             </div>
-            <div id="gemini-response-container" class="response-box hidden">
-                <div id="gemini-loading-indicator" class="flex justify-center items-center space-x-2 my-4 hidden">
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                    <div class="loading-dot"></div>
-                </div>
-                <p id="gemini-response-text" class="text-raw-umber"></p>
-            </div>
+            <p class="mt-2 text-gray-600">Checking your answer with Gemini...</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const questions = [
+        const exercisesData = {
+            "Complex Sentences": [
                 {
-                    text: "The dog barked, and the cat meowed.",
-                    options: [
-                        { text: "Simple Sentence", isCorrect: false, explanation: "A simple sentence has one independent clause." },
-                        { text: "Complex Sentence", isCorrect: false, explanation: "A complex sentence contains one independent clause and at least one dependent clause." },
-                        { text: "Compound Sentence", isCorrect: true, explanation: "A compound sentence contains two or more independent clauses joined by a coordinating conjunction." },
-                        { text: "Compound-complex Sentence", isCorrect: false, explanation: "A compound-complex sentence contains two or more independent clauses and at least one dependent clause." }
-                    ]
+                    type: "multiple-choice",
+                    question: "Identify the dependent clause: The mailman wouldn't deliver our mail after my dog bit him in the leg.",
+                    options: ["after my dog bit him in the leg.", "The mailman wouldn't deliver our mail", "after my dog", "The mailman wouldn't deliver"]
                 },
                 {
-                    text: "The birds were playing in our pool.",
-                    options: [
-                        { text: "Simple Sentence", isCorrect: true, explanation: "A simple sentence has one independent clause." },
-                        { text: "Complex Sentence", isCorrect: false, explanation: "A complex sentence contains one independent clause and at least one dependent clause." },
-                        { text: "Compound Sentence", isCorrect: false, explanation: "A compound sentence contains two or more independent clauses joined by a coordinating conjunction." },
-                        { text: "Compound-complex Sentence", isCorrect: false, explanation: "A compound-complex sentence contains two or more independent clauses and at least one dependent clause." }
-                    ]
+                    type: "multiple-choice",
+                    question: "Identify the subordinate conjunction: Because she didn't say, 'Mother may I?' she had to start over.",
+                    options: ["Because", "she didn't say", "she had to start over", "start over"]
                 },
                 {
-                    text: "Ken mowed the lawn, and Jeff washed the car.",
-                    options: [
-                        { text: "Simple Sentence", isCorrect: false, explanation: "A simple sentence has one independent clause." },
-                        { text: "Complex Sentence", isCorrect: false, explanation: "A complex sentence contains one independent clause and at least one dependent clause." },
-                        { text: "Compound Sentence", isCorrect: true, explanation: "A compound sentence contains two or more independent clauses joined by a coordinating conjunction." },
-                        { text: "Compound-complex Sentence", isCorrect: false, explanation: "A compound-complex sentence contains two or more independent clauses and at least one dependent clause." }
-                    ]
+                    type: "multiple-choice",
+                    question: "Combine the two sentences into a complex sentence: I had to go to the dentist. My back tooth started to hurt.",
+                    options: ["I had to go to the dentist because my back tooth started to hurt.", "My back tooth started to hurt, so I had to go to the dentist.", "I had to go to the dentist, and my back tooth started to hurt.", "My back tooth started to hurt and I had to go to the dentist."]
                 },
                 {
-                    text: "We had to stop swimming because it started to rain.",
-                    options: [
-                        { text: "Simple Sentence", isCorrect: false, explanation: "A simple sentence has one independent clause." },
-                        { text: "Complex Sentence", isCorrect: true, explanation: "A complex sentence contains one independent clause and at least one dependent clause ('because it started to rain')." },
-                        { text: "Compound Sentence", isCorrect: false, explanation: "A compound sentence contains two or more independent clauses joined by a coordinating conjunction." },
-                        { text: "Compound-complex Sentence", isCorrect: false, explanation: "A compound-complex sentence contains two or more independent clauses and at least one dependent clause." }
-                    ]
+                    type: "multiple-choice",
+                    question: "Identify the dependent clause: Before you accuse someone of stealing your pencil, make sure it isn't just lost.",
+                    options: ["Before you accuse someone of stealing your pencil", "make sure it isn't just lost", "accuse someone", "make sure"]
+                }
+            ],
+            "Sentence Combining": [
+                {
+                    type: "writing",
+                    prompt: "Combine the sentences using shared words: The high school band gave a concert. It lasted for an hour."
                 },
                 {
-                    text: "The boys played while the girls painted, and everyone had a good time.",
-                    options: [
-                        { text: "Simple Sentence", isCorrect: false, explanation: "A simple sentence has one independent clause." },
-                        { text: "Complex Sentence", isCorrect: false, explanation: "A complex sentence contains one independent clause and at least one dependent clause." },
-                        { text: "Compound Sentence", isCorrect: false, explanation: "A compound sentence contains two or more independent clauses joined by a coordinating conjunction." },
-                        { text: "Compound-complex Sentence", isCorrect: true, explanation: "A compound-complex sentence contains at least two independent clauses ('The boys played', 'everyone had a good time') and at least one dependent clause ('while the girls painted')." }
-                    ]
+                    type: "multiple-choice",
+                    question: "Combine the sentences using a phrase: The Battling Butterflies won the championship. They are my sister's softball team.",
+                    options: ["The Battling Butterflies, my sister's softball team, won the championship.", "My sister's softball team, the Battling Butterflies, won the championship.", "The Battling Butterflies, who are my sister's softball team, won the championship.", "The Battling Butterflies won the championship, which is my sister's softball team."]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Combine the sentences into a compound sentence: We wanted to see the movie. It was sold out.",
+                    options: ["We wanted to see the movie, but it was sold out.", "We wanted to see the movie, so it was sold out.", "We wanted to see the movie and it was sold out.", "Because the movie was sold out, we wanted to see it."]
+                },
+                {
+                    type: "writing",
+                    prompt: "Combine the sentences into a complex sentence: Our football captain rings the victory bell. He rings it whenever we win a game."
                 }
-            ];
-
-            let currentQuestionIndex = 0;
-
-            const questionTextElement = document.getElementById('current-question-text');
-            const optionsContainer = document.getElementById('options-container');
-            const checkButton = document.getElementById('check-btn');
-            const nextButton = document.getElementById('next-btn');
-            const prevButton = document.getElementById('prev-btn');
-            const feedbackContainer = document.getElementById('feedback-container');
-            const feedbackMessage = document.getElementById('feedback-message');
-            const feedbackExplanation = document.getElementById('feedback-explanation');
-            
-            const userSentencesTextarea = document.getElementById('user-sentences');
-            const geminiCheckBtn = document.getElementById('gemini-check-btn');
-            const geminiResponseContainer = document.getElementById('gemini-response-container');
-            const geminiResponseText = document.getElementById('gemini-response-text');
-            const geminiLoadingIndicator = document.getElementById('gemini-loading-indicator');
-
-            // API key variable - leave as an empty string
-            const apiKey = "";
-            const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=" + apiKey;
-
-            // This function handles the fetch request with exponential backoff
-            const fetchWithExponentialBackoff = async (url, options, retries = 5, delay = 1000) => {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status === 429 && retries > 0) {
-                        console.log(`Rate limit exceeded. Retrying in ${delay}ms...`);
-                        await new Promise(res => setTimeout(res, delay));
-                        return fetchWithExponentialBackoff(url, options, retries - 1, delay * 2);
-                    }
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response;
-                } catch (error) {
-                    if (retries > 0) {
-                        console.log(`Fetch failed. Retrying in ${delay}ms...`);
-                        await new Promise(res => setTimeout(res, delay));
-                        return fetchWithExponentialBackoff(url, options, retries - 1, delay * 2);
-                    }
-                    throw error;
+            ],
+            "Compound-Complex Sentences": [
+                {
+                    type: "multiple-choice",
+                    question: "Identify the type of sentence: The dog barked when he saw the cat, and the cat ran away.",
+                    options: ["Compound-Complex Sentence", "Simple Sentence", "Compound Sentence", "Complex Sentence"]
+                },
+                {
+                    type: "writing",
+                    prompt: "Combine the sentences with the given clauses: We went to the game, but it started to rain. (as soon as we arrived)"
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the independent clauses in this sentence: The students were ready when class started, but the teacher was late because he had to go to a meeting.",
+                    options: ["The students were ready", "the teacher was late", "when class started", "because he had to go to a meeting", "The students were ready; the teacher was late"]
+                },
+                {
+                    type: "writing",
+                    prompt: "Combine the sentences: The party ended, and we went to Tom's house. (when his parents came home)"
                 }
-            };
-            
-            const renderQuestion = () => {
-                const q = questions[currentQuestionIndex];
-                questionTextElement.textContent = q.text;
-                optionsContainer.innerHTML = '';
-                feedbackContainer.classList.add('hidden');
-                nextButton.classList.add('hidden');
-                checkButton.classList.remove('hidden');
-
-                q.options.forEach((option, index) => {
-                    const button = document.createElement('button');
-                    button.textContent = option.text;
-                    button.className = "text-left p-3 border-2 border-tan rounded-xl hover:bg-tan transition-colors focus:outline-none";
-                    button.onclick = () => {
-                        document.querySelectorAll('#options-container button').forEach(btn => {
-                            btn.classList.remove('bg-tan', 'border-buff');
-                        });
-                        button.classList.add('bg-tan', 'border-buff');
-                        checkButton.dataset.selectedIndex = index;
-                    };
-                    optionsContainer.appendChild(button);
-                });
-
-                if (currentQuestionIndex === 0) {
-                    prevButton.classList.add('hidden');
-                } else {
-                    prevButton.classList.remove('hidden');
+            ],
+            "Sentence Types Quiz": [
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: The birds were playing in our pool.",
+                    options: ["Simple Sentence", "Complex Sentence", "Compound Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: We were hungry, but dinner wasn't ready yet.",
+                    options: ["Compound Sentence", "Simple Sentence", "Complex Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: We had to stop swimming because it started to rain.",
+                    options: ["Complex Sentence", "Simple Sentence", "Compound Sentence", "Compound-complex Sentence"]
+                },
+                {
+                    type: "multiple-choice",
+                    question: "Identify the sentence type: We have fun whenever my cousins come over, but they won't visit us until they sell their house.",
+                    options: ["Compound-complex Sentence", "Simple Sentence", "Complex Sentence", "Compound Sentence"]
                 }
-            };
+            ]
+        };
 
-            const getGeminiResponse = async (prompt) => {
-                geminiLoadingIndicator.classList.remove('hidden');
-                geminiResponseText.textContent = '';
-                geminiResponseContainer.classList.remove('hidden');
+        const topicSelect = document.getElementById('topic-select');
+        const exercisesContainer = document.getElementById('exercises-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
 
-                const payload = {
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }]
-                };
+        // Populate the dropdown menu
+        function populateTopics() {
+            for (const topic in exercisesData) {
+                const option = document.createElement('option');
+                option.value = topic;
+                option.textContent = topic;
+                topicSelect.appendChild(option);
+            }
+        }
 
-                const options = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                };
+        // Display exercises for the selected topic
+        function displayExercises(topic) {
+            exercisesContainer.innerHTML = ''; // Clear previous exercises
+            const exercises = exercisesData[topic];
 
-                try {
-                    const response = await fetchWithExponentialBackoff(apiUrl, options);
-                    const result = await response.json();
-                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                    if (text) {
-                        geminiResponseText.textContent = text;
-                    } else {
-                        geminiResponseText.textContent = 'Sorry, I couldn\'t generate a response. Please try again.';
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    geminiResponseText.textContent = 'An error occurred. Please check the console for details.';
-                } finally {
-                    geminiLoadingIndicator.classList.add('hidden');
-                }
-            };
+            exercises.forEach((exercise, index) => {
+                const exerciseCard = document.createElement('div');
+                exerciseCard.className = 'bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200';
 
-            checkButton.addEventListener('click', () => {
-                const selectedIndex = checkButton.dataset.selectedIndex;
-                if (selectedIndex === undefined) {
-                    // Use a message box instead of alert
-                    alert('Please select an answer first.');
-                    return;
-                }
-
-                const currentQuestion = questions[currentQuestionIndex];
-                const selectedOption = currentQuestion.options[selectedIndex];
-                const correctOption = currentQuestion.options.find(opt => opt.isCorrect);
-
-                feedbackContainer.classList.remove('hidden');
-                if (selectedOption.isCorrect) {
-                    feedbackContainer.classList.add('correct');
-                    feedbackContainer.classList.remove('incorrect');
-                    feedbackMessage.textContent = 'Correct!';
-                } else {
-                    feedbackContainer.classList.add('incorrect');
-                    feedbackContainer.classList.remove('correct');
-                    feedbackMessage.textContent = 'Incorrect.';
-                }
-                feedbackExplanation.textContent = `The correct answer is "${correctOption.text}". ${correctOption.explanation}`;
+                const questionText = `<p class="text-lg font-semibold text-gray-800 mb-4">${index + 1}. ${exercise.question || exercise.prompt}</p>`;
                 
-                checkButton.classList.add('hidden');
-                if (currentQuestionIndex < questions.length - 1) {
-                    nextButton.classList.remove('hidden');
+                if (exercise.type === "multiple-choice") {
+                    exerciseCard.innerHTML = `
+                        ${questionText}
+                        <div class="options-container grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+                    `;
+                    const optionsContainer = exerciseCard.querySelector('.options-container');
+                    const shuffledOptions = shuffleArray(exercise.options);
+                    shuffledOptions.forEach(option => {
+                        const button = document.createElement('button');
+                        button.textContent = option;
+                        button.className = 'w-full text-left p-3 rounded-lg border border-gray-300 bg-white text-gray-800 font-medium hover:bg-gray-100 transition-colors duration-200';
+                        button.onclick = () => handleMultipleChoiceAnswer(button, option, exercise.options[0], optionsContainer);
+                        optionsContainer.appendChild(button);
+                    });
+                } else if (exercise.type === "writing") {
+                    exerciseCard.innerHTML = `
+                        ${questionText}
+                        <textarea class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4" rows="3" placeholder="Write your sentence here..."></textarea>
+                        <button class="w-full p-3 rounded-lg bg-blue-500 text-white font-bold hover:bg-blue-600 transition-colors duration-200">Check Answer</button>
+                        <div class="feedback-container mt-4"></div>
+                    `;
+                    const submitButton = exerciseCard.querySelector('button');
+                    const textArea = exerciseCard.querySelector('textarea');
+                    const feedbackContainer = exerciseCard.querySelector('.feedback-container');
+                    submitButton.onclick = () => checkWritingAnswer(textArea.value, exercise.prompt, feedbackContainer, submitButton);
                 }
-            });
 
-            nextButton.addEventListener('click', () => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                    renderQuestion();
+                exercisesContainer.appendChild(exerciseCard);
+            });
+        }
+
+        // Handle the user's multiple-choice answer selection
+        function handleMultipleChoiceAnswer(clickedButton, selectedOption, correctAnswer, optionsContainer) {
+            const allButtons = optionsContainer.querySelectorAll('button');
+            allButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedOption === correctAnswer) {
+                clickedButton.classList.remove('bg-white', 'hover:bg-gray-100');
+                clickedButton.classList.add('bg-green-500', 'text-white');
+            } else {
+                clickedButton.classList.remove('bg-white', 'hover:bg-gray-100');
+                clickedButton.classList.add('bg-red-500', 'text-white');
+                allButtons.forEach(btn => {
+                    if (btn.textContent === correctAnswer) {
+                        btn.classList.add('bg-green-500', 'text-white');
+                    }
+                });
+            }
+        }
+
+        // Check a writing-based answer using Gemini API
+        async function checkWritingAnswer(studentAnswer, originalPrompt, feedbackContainer, submitButton) {
+            feedbackContainer.innerHTML = '';
+            loadingIndicator.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            const systemPrompt = "You are a friendly and helpful grammar tutor. Provide a brief, supportive, and clear explanation of whether the student's sentence is a correct answer to the prompt. If it is incorrect, explain why and provide a corrected example. The feedback should be encouraging and simple for a student to understand.";
+            const userQuery = `Original question: "${originalPrompt}". Student's answer: "${studentAnswer}".`;
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            let response;
+            let retryCount = 0;
+            const maxRetries = 3;
+
+            while (retryCount < maxRetries) {
+                try {
+                    response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        break; // Success, exit the retry loop
+                    } else if (response.status === 429) {
+                        // Too many requests, retry with exponential backoff
+                        const delay = Math.pow(2, retryCount) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        retryCount++;
+                    } else {
+                        throw new Error(`API error: ${response.statusText}`);
+                    }
+                } catch (error) {
+                    console.error('API call failed:', error);
+                    // No need to retry on non-429 errors or network issues
+                    break;
                 }
-            });
+            }
 
-            prevButton.addEventListener('click', () => {
-                if (currentQuestionIndex > 0) {
-                    currentQuestionIndex--;
-                    renderQuestion();
-                }
-            });
+            loadingIndicator.classList.add('hidden');
+            submitButton.disabled = false;
 
-            geminiCheckBtn.addEventListener('click', () => {
-                const sentences = userSentencesTextarea.value.trim();
-                if (!sentences) {
-                    alert('Please write your sentences before checking.');
-                    return;
-                }
-                const prompt = `Analyze the following sentences for grammar and sentence structure. Identify each sentence type (simple, complex, compound, or compound-complex) and provide constructive feedback on their accuracy. The sentences are about the holidays:\n\n${sentences}`;
-                getGeminiResponse(prompt);
-            });
+            if (response && response.ok) {
+                const result = await response.json();
+                const text = result?.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't provide feedback at this time.";
+                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-gray-100 text-gray-800">${text}</p>`;
+            } else {
+                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700">Oops! Something went wrong. Please try again.</p>`;
+            }
+        }
 
-            // Initial render
-            renderQuestion();
+        // Fisher-Yates shuffle algorithm for shuffling the options
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Event listener for the dropdown
+        topicSelect.addEventListener('change', (event) => {
+            const selectedTopic = event.target.value;
+            if (selectedTopic) {
+                displayExercises(selectedTopic);
+            }
         });
+
+        // Initialize the app on page load
+        window.onload = populateTopics;
     </script>
 </body>
 </html>
