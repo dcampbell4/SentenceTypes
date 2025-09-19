@@ -263,11 +263,6 @@
             const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
 
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-            };
-
             let response;
             let retryCount = 0;
             const maxRetries = 3;
@@ -277,7 +272,10 @@
                     response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                        })
                     });
 
                     if (response.ok) {
@@ -288,11 +286,12 @@
                         await new Promise(resolve => setTimeout(resolve, delay));
                         retryCount++;
                     } else {
-                        throw new Error(`API error: ${response.statusText}`);
+                        // Non-429 error, don't retry, just break
+                        console.error('API call failed with status:', response.status);
+                        break;
                     }
                 } catch (error) {
                     console.error('API call failed:', error);
-                    // No need to retry on non-429 errors or network issues
                     break;
                 }
             }
@@ -306,7 +305,7 @@
                 feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-gray-100 text-dark-green">${text}</p>`;
             } else {
                 const errorText = `Oops! Something went wrong. Status: ${response?.status || 'Unknown'}. Please try again.`;
-                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700">${errorText}</p>`;
+                feedbackContainer.innerHTML = `<p class="p-4 rounded-lg bg-red-100 text-red-700 font-bold">${errorText}</p>`;
             }
         }
 
