@@ -260,8 +260,8 @@
 
             const systemPrompt = "You are a friendly and helpful grammar tutor. Provide a brief, supportive, and clear explanation of whether the student's sentence is a correct answer to the prompt. If it is incorrect, explain why and provide a corrected example. The feedback should be encouraging and simple for a student to understand.";
             const userQuery = `Original question: "${originalPrompt}". Student's answer: "${studentAnswer}".`;
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            const apiKey = "AIzaSyBrdZiB3z9eCgdp34ZWW4SMYN5pGU0-mec";
+            const apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
             const payload = {
                 contents: [{ parts: [{ text: userQuery }] }],
